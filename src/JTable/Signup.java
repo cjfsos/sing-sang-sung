@@ -52,7 +52,7 @@ public class Signup extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Object act = e.getSource();
 				if (act.equals(idcheck)) {
-					daoIns.Idcheck();
+//					daoIns.Idcheck();
 				}
 			}
 		});

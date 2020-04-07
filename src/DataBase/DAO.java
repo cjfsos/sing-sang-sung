@@ -2,6 +2,7 @@ package DataBase;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -62,20 +63,41 @@ public class DAO {
 		return dList;
 	}
 
-	public void Idcheck() {
-		ArrayList<String[]> idList = new ArrayList<>();
-		if(link()) {
+	public boolean Idcheck(String id) {
+		if (link()) {
 			try {
-				st = con.createStatement();
-				String sql = "select * from loogin where id='";//입력값을 넣자 직접넣음? preparestatemant
-				rs = st.executeQuery(sql);
-				while(rs.next()) {
-					rs.getString("id");
-					rs.getString("pw");							
+				String sql = "select count(*) cnt from loogin where id= ?";
+				PreparedStatement pst = con.prepareStatement(sql);
+				pst.setString(1, id);
+				rs = pst.executeQuery();
+
+				if (rs.next()) {
+					int cnt = rs.getInt("cnt");
+					if (cnt > 0) {
+						return true;
+					}
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
+		return false;
+	}
+
+	public int signup(String id, String pw) {
+		int k =0;
+		if (link()) {
+			String sql = "insert into loogin values(?,?)";
+			try {
+				PreparedStatement pps = con.prepareStatement(sql);
+				pps.setString(1, id);
+				pps.setString(2, pw);
+				k = pps.executeUpdate();
+				return k;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return k;
 	}
 }

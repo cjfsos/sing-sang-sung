@@ -102,7 +102,7 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Object act = e.getSource();
 				if(act.equals(signUp)) {
-					new Signup();
+					new Sign_Up();
 				}
 			}
 		});
