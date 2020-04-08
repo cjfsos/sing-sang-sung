@@ -30,7 +30,7 @@ public class Ccenter{
 			}
 		}
 	}
-
+	
 	private void group(String msg) {
 		System.out.println(msg);
 		switch (msg) {
