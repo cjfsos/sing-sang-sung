@@ -85,7 +85,7 @@ public class DAO {
 	}
 
 	public int signup(String id, String pw) {
-		int k =0;
+		int k = 0;
 		if (link()) {
 			String sql = "insert into loogin values(?,?)";
 			try {
@@ -99,5 +99,27 @@ public class DAO {
 			}
 		}
 		return k;
+	}
+
+	public boolean login(String id, String pw) {
+		if (link()) {
+			try {
+				String sql = "select count(*) cnt from loogin where id= ? and pw= ?";
+				PreparedStatement pst = con.prepareStatement(sql);
+				pst.setString(1, id);
+				pst.setString(2, pw);
+				rs = pst.executeQuery();
+
+				if (rs.next()) {
+					int cnt = rs.getInt("cnt");
+					if (cnt > 0) {
+						return true;
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
 	}
 }
