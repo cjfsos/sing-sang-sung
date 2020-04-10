@@ -18,12 +18,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import Client.Ccenter;
+import Client.CenterC;
 import DataBase.DAO;
 
 public class MainFrame extends JFrame{
 	String header[] = { "번호", "곡명", "가수명", "앨범", "장르" };
 	String contents[][];
-	DefaultTableModel tableModel = new DefaultTableModel(contents, header);
+	public DefaultTableModel tableModel = new DefaultTableModel(contents, header);
 	JTable table = new JTable(tableModel);
 	JScrollPane Scroll = new JScrollPane(table);
 	JPanel wp = new JPanel();
@@ -49,10 +50,10 @@ public class MainFrame extends JFrame{
 	JButton logout = null;
 	DAO daoIns = DAO.getInstance();
 	ArrayList<String[]> DTList = new ArrayList<>();
-	Ccenter Cct;
+	CenterC Cct;
 	String orderMSG;
 
-	public MainFrame(Ccenter order) {
+	public MainFrame(CenterC order) {
 		Cct = order;
 		Dimension size = new Dimension(700, 500);
 		this.setSize(size);
@@ -61,14 +62,15 @@ public class MainFrame extends JFrame{
 		this.add(Scroll);
 		this.add(ep, "East");
 		this.setVisible(true);
-		this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 	}
 
 	private void WestSetting() {
-		DTList = daoIns.getContents();
-		for (int i = 0; i < DTList.size(); i++) {
-			tableModel.addRow(DTList.get(i));
-		}
+//		Cct.send("need_SList_Data");
+//		DTList = daoIns.getContents();
+//		for (int i = 0; i < DTList.size(); i++) {
+//			tableModel.addRow(DTList.get(i));
+//		}
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
@@ -188,7 +190,7 @@ public class MainFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				orderMSG = "signup";
-				Cct.send(orderMSG);//서버에게 회원가입 요청
+//				Cct.send(orderMSG);//서버에게 회원가입 요청
 				orderMSG = "";
 			}
 		});

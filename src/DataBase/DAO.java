@@ -8,11 +8,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import Server.CenterS;
+
 public class DAO {
 	public static DAO ins;
 	private Connection con;
 	private Statement st;
 	private ResultSet rs;
+	private CenterS Sct;
 
 	private DAO() {
 	}
@@ -41,26 +44,29 @@ public class DAO {
 	}
 
 	public ArrayList<String[]> getContents() {
-		ArrayList<String[]> dList = new ArrayList<>();
+		ArrayList<String[]> Data = new ArrayList();
 		if (link()) {// if에서 link()를 한번 실행해줌
 			try {
 				st = con.createStatement();
 				String sql = "select * from song";
 				rs = st.executeQuery(sql);
+				Song_DTO Sdb = new Song_DTO();
 				while (rs.next()) {
-					Song_DTO Sdb = new Song_DTO();
-					Sdb.setNo(rs.getInt("no"));
+					Sdb.setNo(rs.getString("no"));
 					Sdb.setStitle(rs.getString("곡명"));
 					Sdb.setSinger(rs.getString("가수명"));
 					Sdb.setAlbum(rs.getString("앨범"));
 					Sdb.setGenre(rs.getString("장르"));
-					dList.add(Sdb.getArray());
+					Data.add(Sdb.getArray());
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}else {
+			System.out.println("DB연결실패");
+			System.exit(0);
 		}
-		return dList;
+		return Data;
 	}
 
 	public boolean Idcheck(String id) {

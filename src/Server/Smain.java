@@ -9,7 +9,11 @@ public class Smain {
 	public static void main(String[] args) throws Exception {
 		ServerSocket ssc = new ServerSocket();
 		ssc.bind(new InetSocketAddress("10.0.0.97", 9999));
-		Socket sc = ssc.accept();
-		new Scenter(sc);
+		while(true) {
+			Socket sc = ssc.accept();
+//			Scenter st =new Scenter(sc);
+//			st.start();
+			new CenterS(sc);
+		}
 	}
 }

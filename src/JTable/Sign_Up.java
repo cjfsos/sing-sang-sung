@@ -1,28 +1,23 @@
 package JTable;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import DataBase.DAO;
-
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
-import java.awt.Graphics;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import Client.Ccenter;
+import DataBase.DAO;
 
 public class Sign_Up extends JFrame {
 
@@ -30,7 +25,8 @@ public class Sign_Up extends JFrame {
 	private JTextField idtextField;
 	private JTextField PWtextField_1;
 	private JTextField PWtextField_2;
-	private JLabel idcheck = new JLabel("");
+	public JLabel idcheck = new JLabel("");
+	public JButton btnId =null;
 	private JLabel pwcheck = new JLabel("");
 	private boolean idckeked = false;
 	private boolean pwckeked = false;
@@ -39,28 +35,30 @@ public class Sign_Up extends JFrame {
 	DAO daoIns = DAO.getInstance();
 	JLabel pwicon1 = new JLabel("New label");
 	JLabel pwicon2 = new JLabel("New label");
+	Ccenter Cct = null;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Sign_Up frame = new Sign_Up();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Sign_Up frame = new Sign_Up();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public Sign_Up() {
+	public Sign_Up(Ccenter Cct) {
 		super("회원가입");
+		this.Cct = Cct;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 326, 192);
 		contentPane = new JPanel();
@@ -164,7 +162,7 @@ public class Sign_Up extends JFrame {
 			}
 		});
 
-		JButton btnId = new JButton("ID중복확인");
+		btnId = new JButton("ID중복확인");
 		btnId.setBounds(207, 9, 100, 23);
 		contentPane.add(btnId);
 		btnId.addActionListener(new ActionListener() {
@@ -175,17 +173,19 @@ public class Sign_Up extends JFrame {
 					btnId.setText("ID중복확인");
 				} else if (!idtextField.getText().equals("")) {
 					id = idtextField.getText();
-					
-					if (daoIns.Idcheck(id)) {
-						idcheck.setText("중복된 ID입니다.");
-						btnId.setText("ID중복확인");
-					} else {
-						idcheck.setForeground(Color.BLUE);
-						idcheck.setText("사용가능한 ID입니다.");
-						btnId.setText("사용가능");
-						idckeked = true;
-						id = idtextField.getText();
-					}
+					String msg = "ID중복확인" +"/"+ id;
+					Cct.send(msg);
+
+//					if (daoIns.Idcheck(id)) {
+//						idcheck.setText("중복된 ID입니다.");
+//						btnId.setText("ID중복확인");
+//					} else {
+//						idcheck.setForeground(Color.BLUE);
+//						idcheck.setText("사용가능한 ID입니다.");
+//						btnId.setText("사용가능");
+//						idckeked = true;
+//						id = idtextField.getText();
+//					}
 				}
 			}
 		});
