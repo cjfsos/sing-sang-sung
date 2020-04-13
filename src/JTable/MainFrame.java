@@ -17,11 +17,12 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-import Client.Ccenter;
+import Client.CGorder;
+import Client.CSorder;
 import Client.CenterC;
 import DataBase.DAO;
 
-public class MainFrame extends JFrame{
+public class MainFrame extends JFrame {
 	String header[] = { "번호", "곡명", "가수명", "앨범", "장르" };
 	String contents[][];
 	public DefaultTableModel tableModel = new DefaultTableModel(contents, header);
@@ -50,11 +51,13 @@ public class MainFrame extends JFrame{
 	JButton logout = null;
 	DAO daoIns = DAO.getInstance();
 	ArrayList<String[]> DTList = new ArrayList<>();
-	CenterC Cct;
 	String orderMSG;
+	CGorder CG;
+	CSorder SC;
 
-	public MainFrame(CenterC order) {
-		Cct = order;
+	public MainFrame(CGorder CG, CSorder SC) {
+		this.CG = CG;
+		this.SC = SC;
 		Dimension size = new Dimension(700, 500);
 		this.setSize(size);
 		WestSetting();
@@ -66,11 +69,6 @@ public class MainFrame extends JFrame{
 	}
 
 	private void WestSetting() {
-//		Cct.send("need_SList_Data");
-//		DTList = daoIns.getContents();
-//		for (int i = 0; i < DTList.size(); i++) {
-//			tableModel.addRow(DTList.get(i));
-//		}
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
@@ -168,7 +166,7 @@ public class MainFrame extends JFrame{
 		});
 	}
 
-	private void login() {
+	private void login() {// 현재 직접 DB에 접속중임 수정 할것
 		// ID/Pw일치할때만 로그인 성공이 나오게 하고 그외에는 전부
 		// 가입되지 않은 ID이거나 ID/PW가 틀립니다.
 		// 각 ID나 PW일치시 알려주는건 보안문제가 발생하니까
@@ -190,7 +188,7 @@ public class MainFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				orderMSG = "signup";
-//				Cct.send(orderMSG);//서버에게 회원가입 요청
+				CG.send(orderMSG);
 				orderMSG = "";
 			}
 		});

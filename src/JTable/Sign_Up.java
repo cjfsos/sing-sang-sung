@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import Client.Ccenter;
+import Client.CGorder;
 import DataBase.DAO;
 
 public class Sign_Up extends JFrame {
@@ -26,7 +26,7 @@ public class Sign_Up extends JFrame {
 	private JTextField PWtextField_1;
 	private JTextField PWtextField_2;
 	public JLabel idcheck = new JLabel("");
-	public JButton btnId =null;
+	public JButton btnId = null;
 	private JLabel pwcheck = new JLabel("");
 	private boolean idckeked = false;
 	private boolean pwckeked = false;
@@ -35,7 +35,7 @@ public class Sign_Up extends JFrame {
 	DAO daoIns = DAO.getInstance();
 	JLabel pwicon1 = new JLabel("New label");
 	JLabel pwicon2 = new JLabel("New label");
-	Ccenter Cct = null;
+	CGorder Cgd = null;
 
 	/**
 	 * Launch the application.
@@ -56,9 +56,9 @@ public class Sign_Up extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Sign_Up(Ccenter Cct) {
+	public Sign_Up(CGorder Cgd) {
 		super("회원가입");
-		this.Cct = Cct;
+		this.Cgd = Cgd;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 326, 192);
 		contentPane = new JPanel();
@@ -173,19 +173,8 @@ public class Sign_Up extends JFrame {
 					btnId.setText("ID중복확인");
 				} else if (!idtextField.getText().equals("")) {
 					id = idtextField.getText();
-					String msg = "ID중복확인" +"/"+ id;
-					Cct.send(msg);
-
-//					if (daoIns.Idcheck(id)) {
-//						idcheck.setText("중복된 ID입니다.");
-//						btnId.setText("ID중복확인");
-//					} else {
-//						idcheck.setForeground(Color.BLUE);
-//						idcheck.setText("사용가능한 ID입니다.");
-//						btnId.setText("사용가능");
-//						idckeked = true;
-//						id = idtextField.getText();
-//					}
+					String msg = "ID중복확인" + "/" + id;
+					Cgd.send(msg);
 				}
 			}
 		});

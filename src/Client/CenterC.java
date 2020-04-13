@@ -6,7 +6,9 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import JTable.MainFrame;
 
@@ -15,11 +17,49 @@ public class CenterC {
 	private InputStream inMsg = null;
 	private OutputStream outMsg = null;
 	private MainFrame MF = null;
+	private int generalPort;
+	private int specialPort;
+	CGorder CG;
+	CSorder SC;
 
 	CenterC(Socket sc) {
 		this.sc = sc;
+		SocketReceive();
+		SocketSetting();
 		beginSet();
 		beginData();
+	}
+
+	private void SocketReceive() {
+		try {
+			inMsg = sc.getInputStream();
+			byte[] reBuffer = new byte[1024];
+			inMsg.read(reBuffer);
+			String sket = new String(reBuffer);
+			sket = sket.trim();
+			StringTokenizer tk = new StringTokenizer(sket, "/");
+			generalPort = Integer.parseInt(tk.nextToken());
+			specialPort = Integer.parseInt(tk.nextToken());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void SocketSetting() {
+		try {
+			Socket general = new Socket("10.0.0.97", generalPort);
+			CG = new CGorder(general);
+			CG.start();
+
+			Socket special = new Socket("10.0.0.97", specialPort);
+			SC = new CSorder(special);
+			SC.start();
+
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void beginSet() {
@@ -31,6 +71,7 @@ public class CenterC {
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("송신 오류");
+			System.out.println(sc.getInetAddress()+"/"+sc.getPort());
 		}
 
 		try {
@@ -39,7 +80,7 @@ public class CenterC {
 			String sdMsg = new String(reBuffer);
 			sdMsg = sdMsg.trim();
 			if (sdMsg.equals("allowProgram")) {
-				MF = new MainFrame(this);
+				MF = new MainFrame(CG, SC);
 			} else {
 				System.out.println("관리자에게 문의하세요.");
 			}

@@ -11,8 +11,6 @@ public class Smain {
 		ssc.bind(new InetSocketAddress("10.0.0.97", 9999));
 		while(true) {
 			Socket sc = ssc.accept();
-//			Scenter st =new Scenter(sc);
-//			st.start();
 			new CenterS(sc);
 		}
 	}
