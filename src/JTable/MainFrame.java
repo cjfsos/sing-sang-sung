@@ -17,9 +17,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-import Client.CGorder;
-import Client.CSorder;
-import Client.CenterC;
+import Client.CCenter;
+import Client.CObject;
 import DataBase.DAO;
 
 public class MainFrame extends JFrame {
@@ -35,7 +34,7 @@ public class MainFrame extends JFrame {
 	JTextField ID;
 	JPasswordField PW;
 	JButton signIn;
-	JButton signUp;
+	public JButton signUp;
 	JPanel midNp = null;
 	JPanel smNp = null;
 	JPanel smCp = null;
@@ -52,12 +51,17 @@ public class MainFrame extends JFrame {
 	DAO daoIns = DAO.getInstance();
 	ArrayList<String[]> DTList = new ArrayList<>();
 	String orderMSG;
-	CGorder CG;
-	CSorder SC;
+	CObject CO;
+	public CCenter CT;
+	MainFrame MF = null;
+	public Sign_Up SU = null;
 
-	public MainFrame(CGorder CG, CSorder SC) {
-		this.CG = CG;
-		this.SC = SC;
+	public MainFrame(CCenter CT, CObject CO) {
+		this.CT = CT;
+		this.CO = CO;
+		MF = this;
+		CO.setMFins(MF);
+//		System.out.println(this.CT + "/" + CT + "/" + this.CO + "/" + CO);//확인용
 		Dimension size = new Dimension(700, 500);
 		this.setSize(size);
 		WestSetting();
@@ -69,6 +73,9 @@ public class MainFrame extends JFrame {
 	}
 
 	private void WestSetting() {
+		String loadList = "SongList";
+		CO.ReceiveNewSongList();//리스트를 오브젝트로 받을 준비
+		CT.Send(loadList);//리스트를 서버에게 달라고 요청
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
@@ -166,7 +173,7 @@ public class MainFrame extends JFrame {
 		});
 	}
 
-	private void login() {// 현재 직접 DB에 접속중임 수정 할것
+	private void login() {
 		// ID/Pw일치할때만 로그인 성공이 나오게 하고 그외에는 전부
 		// 가입되지 않은 ID이거나 ID/PW가 틀립니다.
 		// 각 ID나 PW일치시 알려주는건 보안문제가 발생하니까
@@ -187,9 +194,7 @@ public class MainFrame extends JFrame {
 		signUp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				orderMSG = "signup";
-				CG.send(orderMSG);
-				orderMSG = "";
+				SU = new Sign_Up(MF);//이 매개변수에서 this를 쓰면 오버라이드된 actionPerformed를 매개변수가된다.
 			}
 		});
 	}

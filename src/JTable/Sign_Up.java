@@ -16,7 +16,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import Client.CGorder;
 import DataBase.DAO;
 
 public class Sign_Up extends JFrame {
@@ -35,7 +34,7 @@ public class Sign_Up extends JFrame {
 	DAO daoIns = DAO.getInstance();
 	JLabel pwicon1 = new JLabel("New label");
 	JLabel pwicon2 = new JLabel("New label");
-	CGorder Cgd = null;
+	MainFrame MF = null;
 
 	/**
 	 * Launch the application.
@@ -56,9 +55,9 @@ public class Sign_Up extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Sign_Up(CGorder Cgd) {
+	public Sign_Up(MainFrame MF) {
 		super("회원가입");
-		this.Cgd = Cgd;
+		this.MF = MF;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 326, 192);
 		contentPane = new JPanel();
@@ -174,7 +173,7 @@ public class Sign_Up extends JFrame {
 				} else if (!idtextField.getText().equals("")) {
 					id = idtextField.getText();
 					String msg = "ID중복확인" + "/" + id;
-					Cgd.send(msg);
+					MF.CT.Send(msg);
 				}
 			}
 		});

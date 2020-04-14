@@ -8,14 +8,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import Server.CenterS;
+import Server.SCenter;
 
 public class DAO {
 	public static DAO ins;
 	private Connection con;
 	private Statement st;
 	private ResultSet rs;
-	private CenterS Sct;
+	private SCenter Sct;
 
 	private DAO() {
 	}
@@ -69,7 +69,7 @@ public class DAO {
 		return Data;
 	}
 
-	public boolean Idcheck(String id) {
+	public boolean DBIdcheck(String id) {
 		if (link()) {
 			try {
 				String sql = "select count(*) cnt from loogin where id= ?";
