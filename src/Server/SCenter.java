@@ -55,24 +55,56 @@ public class SCenter {
 			SettingSeObject();// MF에서 노래리스트를 요청할테니 미리 생성
 		} else if (msg.equals("SongList")) {
 			Sob.SendNewSongList();
-		} else if (msg.contains("ID중복확인")) {
-			SVidcheck(msg);
+		} else if (msg.contains("IDOverCheck")) {
+			STidcheck(msg);
+		} else if (msg.contains("SignUpDB")) {
+			STSignUp(msg);
+		} else if (msg.contains("loginChecking")) {
+			STsignin(msg);
 		} else {
 			System.out.println("클라이언트 승인 오류");
 			// 나중에 클라이언트에게 send메소드 사용 오류 메시지 전송예정
 		}
 	}
 
-	private void SVidcheck(String msg) {
+	private void STsignin(String msg) {
 		StringTokenizer tk = new StringTokenizer(msg, "/");
-		if (tk.nextToken().equals("ID중복확인")) {
-			String id = tk.nextToken();
-			if(dao.DBIdcheck(id)) {
-				Send("중복된 ID입니다.");
+		if ("loginChecking".equals(tk.nextToken())) {
+			String logID = tk.nextToken();
+			String logPW = tk.nextToken();
+			boolean result = dao.login(logID, logPW);
+			if(result) {
+				Send("LoginSuccess");
 			}else {
+				Send("LoginFalse");
+			}
+		}
+	}
+
+	private void STSignUp(String msg) {
+		StringTokenizer tk = new StringTokenizer(msg, "/");
+		if (tk.nextToken().equals("SignUpDB")) {
+			String id = tk.nextToken();
+			String pw = tk.nextToken();
+			int k = dao.signup(id, pw);
+			if (k == 1) {
+				Send("SignUpCommit");
+			} else if (k == 0) {
+				System.out.println("회원가입DB erorr");
+			}
+		}
+	}
+
+	private void STidcheck(String msg) {
+		StringTokenizer tk = new StringTokenizer(msg, "/");
+		if (tk.nextToken().equals("IDOverCheck")) {
+			String id = tk.nextToken();
+			if (dao.DBIdcheck(id)) {
+				Send("중복된 ID입니다.");
+			} else {
 				Send("사용가능한 ID입니다.");
 			}
-		}else {
+		} else {
 			System.out.println("ID중복 메시지 오류");
 		}
 	}

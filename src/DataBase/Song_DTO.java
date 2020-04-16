@@ -3,11 +3,11 @@ package DataBase;
 import java.io.Serializable;
 
 public class Song_DTO implements Serializable{
-	String no;
-	String Stitle;
-	String singer;
-	String album;
-	String genre;
+	private String no;
+	private String Stitle;
+	private String singer;
+	private String album;
+	private String genre;
 
 	public String getNo() {
 		return no;

@@ -99,6 +99,7 @@ public class DAO {
 				pps.setString(1, id);
 				pps.setString(2, pw);
 				k = pps.executeUpdate();
+				System.out.println(k);
 				return k;
 			} catch (SQLException e) {
 				e.printStackTrace();

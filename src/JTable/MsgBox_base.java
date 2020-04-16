@@ -1,21 +1,22 @@
 package JTable;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import java.awt.Color;
 
-public class MsgBox extends JFrame {
+public class MsgBox_base extends JFrame {
 
 	private JPanel contentPane;
 
@@ -38,44 +39,8 @@ public class MsgBox extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MsgBox() {
-//		signupMSG();
-//		signupFalseMSG();
-//		logNotSel();
-	}
-	public void logNotSel() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 258, 149);
-		contentPane = new JPanel();
-		contentPane.setBackground(Color.WHITE);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLabel lblNewLabel_2 = new JLabel("목록에서 듣고 싶은 노래를 선택 후");
-		lblNewLabel_2.setFont(new Font("굴림", Font.PLAIN, 13));
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setBounds(12, 10, 218, 22);
-		contentPane.add(lblNewLabel_2);
-		
-		JButton btnNewButton_1 = new JButton("확인");
-		btnNewButton_1.setBounds(60, 67, 105, 30);
-		contentPane.add(btnNewButton_1);
-		
-		JLabel label = new JLabel("음악 듣기를 눌러주세요.");
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setFont(new Font("굴림", Font.PLAIN, 13));
-		label.setBounds(12, 35, 208, 22);
-		contentPane.add(label);
-		
-		this.setVisible(true);
-		this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
-		btnNewButton_1.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
+	public MsgBox_base() {
+		super("안내메시지");
 	}
 
 	public void signupMSG() {
@@ -113,6 +78,7 @@ public class MsgBox extends JFrame {
 			}
 		});
 	}
+	
 	public void signupFalseMSG() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 248, 177);

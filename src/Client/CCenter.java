@@ -1,5 +1,6 @@
 package Client;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -8,7 +9,8 @@ import java.net.UnknownHostException;
 import java.util.StringTokenizer;
 
 import JTable.MainFrame;
-import JTable.Sign_Up;
+import JTable.MsgBox;
+import JTable.MsgBox_base;
 
 public class CCenter {
 	private Socket sc = null;
@@ -18,6 +20,7 @@ public class CCenter {
 	private int CObjectPort;
 	private CObject CO;
 	private Socket CObjectSK;
+	public MsgBox MB = new MsgBox();
 
 	CCenter(Socket sc) {
 		this.sc = sc;
@@ -56,7 +59,6 @@ public class CCenter {
 	}
 
 	private void ForkedRoad(String msg) {
-		System.out.println("test1");
 		if (msg.contains("allowProgram")) {
 			StringTokenizer tk = new StringTokenizer(msg, "/");
 			if (tk.nextToken().equals("allowProgram")) {
@@ -68,8 +70,23 @@ public class CCenter {
 			}
 		} else if (msg.equals("중복된 ID입니다.")) {
 			MF.SU.idcheck.setText("중복된 ID입니다.");
+			MF.SU.idcheck.setForeground(Color.RED);
 		} else if (msg.equals("사용가능한 ID입니다.")) {
 			MF.SU.idcheck.setText("사용가능한 ID입니다.");
+			MF.SU.idcheck.setForeground(Color.BLUE);
+			MF.SU.idckeked = true;
+		} else if(msg.equals("SignUpCommit")) {
+			MB.signupMSG();
+			MF.SU.dispose();
+		}else if(msg.equals("LoginSuccess")) {
+			MF.loginMSG.setText("");
+			MF.ID.setText("");
+			MF.PW.setText("");
+			MF.midNp.setVisible(false);
+			MF.loginedEpNorth(MF.UIid);
+		}else if(msg.equals("False")) {
+			MF.loginMSG.setText("");
+			MF.loginMSG.setText("가입되지 않은 ID이거나 ID/PW가 틀립니다.");
 		}
 	}
 

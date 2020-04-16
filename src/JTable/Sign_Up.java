@@ -20,17 +20,17 @@ import DataBase.DAO;
 
 public class Sign_Up extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField idtextField;
-	private JTextField PWtextField_1;
-	private JTextField PWtextField_2;
+	JPanel contentPane;
+	JTextField idtextField;
+	JTextField PWtextField_1;
+	JTextField PWtextField_2;
 	public JLabel idcheck = new JLabel("");
 	public JButton btnId = null;
-	private JLabel pwcheck = new JLabel("");
-	private boolean idckeked = false;
-	private boolean pwckeked = false;
-	private String id;
-	private String pw;
+	JLabel pwcheck = new JLabel("");
+	public boolean idckeked = false;
+	boolean pwckeked = false;
+	String id;
+	String pw;
 	DAO daoIns = DAO.getInstance();
 	JLabel pwicon1 = new JLabel("New label");
 	JLabel pwicon2 = new JLabel("New label");
@@ -123,6 +123,7 @@ public class Sign_Up extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent e) {// 키를 떼었을때
 				if (PWtextField_2.getText().equals(PWtextField_1.getText())) {
+					pwcheck.setForeground(Color.BLUE);
 					pwcheck.setText("사용 가능한 PW입니다.");
 					pwckeked = true;
 					pw = PWtextField_2.getText();
@@ -149,14 +150,10 @@ public class Sign_Up extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (idckeked && pwckeked) {
-					int check = daoIns.signup(id, pw);
-					MsgBox mb = new MsgBox();
-					if (check == 1) {
-						mb.signupMSG();
-						dispose();
-					} else if (check == 0) {
-						// 예외처리나 에러]
-					}
+					String msg = "SignUpDB/" + id + "/" + pw;
+					MF.CT.Send(msg);
+				} else {
+					MF.CT.MB.signupFalseMSG();
 				}
 			}
 		});
@@ -172,7 +169,7 @@ public class Sign_Up extends JFrame {
 					btnId.setText("ID중복확인");
 				} else if (!idtextField.getText().equals("")) {
 					id = idtextField.getText();
-					String msg = "ID중복확인" + "/" + id;
+					String msg = "IDOverCheck" + "/" + id;
 					MF.CT.Send(msg);
 				}
 			}
@@ -181,7 +178,7 @@ public class Sign_Up extends JFrame {
 		pwcheck.setFont(new Font("바탕체", Font.BOLD, 12));
 		pwcheck.setBounds(79, 110, 214, 15);
 		pwcheck.setOpaque(true);
-		pwcheck.setForeground(Color.BLUE);
+		pwcheck.setForeground(Color.RED);
 		contentPane.add(pwcheck);
 		pwcheck.setVisible(true);
 
